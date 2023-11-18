@@ -1,38 +1,113 @@
-.App {
-  text-align: center;
-}
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+@import url('https://fonts.googleapis.com/css2?family=Mohave:wght@700&family=Raleway:wght@300&display=swap');
+.App{
+  position: absolute;
+  height: 100%;
+  overflow: hidden;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.triangle1{
+  width: 0;
+  height: 0;
+  border-top: 200px solid transparent;
+  border-bottom: 530px solid transparent;
+  border-left: 120px solid #B1E457; /* Change the color as per your preference */
+  position: absolute;
+  left: 0;
+  z-index: 1;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.triangle2{
+  width: 0;
+  height: 0;
+  border-top: 180px solid transparent;
+  border-bottom: 580px solid transparent;
+  border-left: 160px solid #8CA005; /* Change the color as per your preference */
+  position: absolute;
+  left: 0;
+}
+.triangle3{
+  width: 0;
+  height: 0;
+  border-top: 200px solid transparent;
+  border-bottom: 530px solid transparent;
+  border-right: 120px solid #B1E457; /* Change the color as per your preference */
+  position: absolute;
+  right: 0;
+  z-index: 1;
+}
+.triangle4{
+  width: 0;
+  height: 0;
+  border-top: 180px solid transparent;
+  border-bottom: 580px solid transparent;
+  border-right: 160px solid #8CA005; /* Change the color as per your preference */
+  position: absolute;
+  right: 0;
+}
+.container{
+  width: 30%;
+  height: 70%;
+  background-color: #212936;
+  border-radius: 10px;
+}
+.header{
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  width: 100%;
+  gap: 7px;
+  padding: 15px 0px;
 }
 
-.App-link {
-  color: #61dafb;
-}
+.text{
+ text-align: center;
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+ font-size: 25px;
+ font-weight: bold;
+ font-family: 'Mohave', sans-serif;
+font-family: 'Raleway', sans-serif;
+ color: #B1E457;
+ 
+
+}
+.underline{
+  width: 15%;
+  height: 3px;
+  background-color: #B1E457;
+  border-radius: 2px;
+
+}
+.toggle{
+  display: flex;
+  flex-direction: row;
+  justify-content:center;
+  padding: 5px 0px;
+}
+.btn{
+  width: 46%;
+  height: 30px;
+  outline: none;
+  background-color: #c4c4c443;
+  border: none;
+  cursor: pointer;
+  font-family: 'Mohave', sans-serif;
+font-family: 'Raleway', sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+ 
+}
+.btn1{
+  
+  border-radius: 5px 0px 0px 5px;
+}
+.btn2{
+ 
+  border-radius: 0px 5px 5px 0px;
+}
+.active{
+  background-color: #B1E457;
+  transition: ease 0.8s;
 }
