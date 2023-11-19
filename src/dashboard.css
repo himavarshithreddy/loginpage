@@ -1,0 +1,49 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Mohave:wght@700&family=Raleway:wght@300&display=swap');
+.dashboard{
+  position: absolute;
+  height: 100%;
+  overflow: hidden;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.triangle1{
+  width: 0;
+  height: 0;
+  border-top: 200px solid transparent;
+  border-bottom: 530px solid transparent;
+  border-left: 120px solid #B1E457; /* Change the color as per your preference */
+  position: absolute;
+  left: 0;
+  z-index: 1;
+}
+.triangle2{
+  width: 0;
+  height: 0;
+  border-top: 180px solid transparent;
+  border-bottom: 580px solid transparent;
+  border-left: 160px solid #8CA005; /* Change the color as per your preference */
+  position: absolute;
+  left: 0;
+}
+.triangle3{
+  width: 0;
+  height: 0;
+  border-top: 200px solid transparent;
+  border-bottom: 530px solid transparent;
+  border-right: 120px solid #B1E457; /* Change the color as per your preference */
+  position: absolute;
+  right: 0;
+  z-index: 1;
+}
+.triangle4{
+  width: 0;
+  height: 0;
+  border-top: 180px solid transparent;
+  border-bottom: 580px solid transparent;
+  border-right: 160px solid #8CA005; /* Change the color as per your preference */
+  position: absolute;
+  right: 0;
+}

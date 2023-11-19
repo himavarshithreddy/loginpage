@@ -4,7 +4,11 @@ import LoadingBar from 'react-top-loading-bar';
 import emailicon from './assests/email.png';
 import nameicon from './assests/user.png';
 import pswdicon from './assests/padlock.png';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from "jwt-decode";
 import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -13,6 +17,7 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 var zxcvbn= require("zxcvbn");
 
 function App() {
+  const navigate = useNavigate();
  const [action,setaction]=useState("Sign Up");
  const [score,setscore]=useState("null");
  const loadingBar = useRef(null);
@@ -40,6 +45,7 @@ function App() {
         className: "toast-message",
       });} else {
       // Add your logic for handling successful sign-up
+      navigate("/dashboard");
     }
   };
 
@@ -61,12 +67,12 @@ function App() {
      <div className='inputs'>
       {action==="Sign In"?<div></div>:<div className='input'>
         <img className='img' src={nameicon} alt=''/>
-        <input className='inputfld' type='text' placeholder='Name'/>
+        <input className='inputfld' type='text'required placeholder='Name'/>
       </div>}
       
       <div className='input'>
         <img className='img' src={emailicon} alt=''/>
-        <input className='inputfld' type='email' placeholder='Email'/>
+        <input className='inputfld' type='email' required placeholder='Email'/>
       </div>
       <div className='inputp '>
         <div className='p'>
@@ -86,6 +92,19 @@ function App() {
       </div>
       {action==="Sign In"? <button className='submitbtn'>{action}</button>: <button  onClick={handleSignUp} className={isSignUpDisabled ? 'submitbtn dis' : 'submitbtn'}>{action}</button>}
       <ToastContainer />
+      <GoogleOAuthProvider clientId="260684329336-k6iq17cretjcqdjo3muuorsukjhtbqof.apps.googleusercontent.com">
+      <GoogleLogin
+  onSuccess={credentialResponse => {
+    const decoded = jwtDecode(credentialResponse.credential);
+
+    console.log(decoded);
+  }}
+  onError={() => {
+    console.log('Login Failed');
+  }}
+/>;
+        
+        </GoogleOAuthProvider>;
      </div>
       
     <div className='or'>
