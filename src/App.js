@@ -1,19 +1,48 @@
 import './App.css';
 import React, { useState, useRef } from 'react';
 import LoadingBar from 'react-top-loading-bar';
-import emailicon from './assests/email.png'
-import nameicon from './assests/user.png'
-import pswdicon from './assests/padlock.png'
+import emailicon from './assests/email.png';
+import nameicon from './assests/user.png';
+import pswdicon from './assests/padlock.png';
+import { ToastContainer, toast } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
+
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+
+var zxcvbn= require("zxcvbn");
 
 function App() {
  const [action,setaction]=useState("Sign Up");
+ const [score,setscore]=useState("null");
  const loadingBar = useRef(null);
+
+ const [visible,setvisible]=useState(false);
+ const isSignUpDisabled = action === 'Sign Up' && (score !== 4 && score !== 3);
 
   const handleToggle = () => {
     loadingBar.current.continuousStart();
-    loadingBar.current.complete(); // Start the loading bar animation
+    loadingBar.current.complete(); 
     
   };
+  const testpswdstr = (e) => {
+    if (e.target.value !== "") {
+      let pass = zxcvbn(e.target.value)
+      setscore(pass.score)
+    }else{
+      setscore("null")
+    }
+  }
+  const handleSignUp = () => {
+    if (score !== 4 && score !== 3) {
+      toast.error("Password Requirement does not meet.", {
+        autoClose: 2000,
+        className: "toast-message",
+      });} else {
+      // Add your logic for handling successful sign-up
+    }
+  };
+
   return (
     <div className="App">
      <div class="triangle1"></div>
@@ -32,20 +61,31 @@ function App() {
      <div className='inputs'>
       {action==="Sign In"?<div></div>:<div className='input'>
         <img className='img' src={nameicon} alt=''/>
-        <input type='text' placeholder='Name'/>
+        <input className='inputfld' type='text' placeholder='Name'/>
       </div>}
       
       <div className='input'>
         <img className='img' src={emailicon} alt=''/>
-        <input type='email' placeholder='Email'/>
+        <input className='inputfld' type='email' placeholder='Email'/>
       </div>
-      <div className='input'>
+      <div className='inputp '>
+        <div className='p'>
         <img className='img' src={pswdicon} alt=''/>
-        <input type='password' placeholder='Password'/>
+        <div className='pswdin'>
+        <input className='pswdfld' type={visible ? "text":"password"} autocomplete="off" id='password' onChange={testpswdstr}  placeholder='Password'/>
+        <span className='eye' onClick={()=>setvisible(!visible)}>
+          {visible ? <FaEyeSlash /> : <FaEye />}
+        </span>
+        </div>
+        </div>
+        {action==="Sign Up" ? <span
+        className="strength-password"
+        data-score={score}
+      />:<div></div>}
+       
       </div>
-      
-        <button className='submitbtn'>{action}</button>
-      
+      {action==="Sign In"? <button className='submitbtn'>{action}</button>: <button  onClick={handleSignUp} className={isSignUpDisabled ? 'submitbtn dis' : 'submitbtn'}>{action}</button>}
+      <ToastContainer />
      </div>
       
     <div className='or'>

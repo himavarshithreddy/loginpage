@@ -51,6 +51,7 @@
   width: 30%;
   height: 75%;
   background-color: #212936;
+  box-shadow: 4px 7px 10px rgba(0, 0, 0, 0.6); 
   border-radius: 10px;
 
 }
@@ -118,7 +119,7 @@ font-family: 'Raleway', sans-serif;
   transition: ease 0.8s;
   color: black;
 }
-input{
+.inputfld, .pswdin{
   width: 80%;
   height: 33px;
   background: rgba(39, 49, 65, 0.8);
@@ -135,10 +136,18 @@ font-family: 'Raleway', sans-serif;
   transition: background 0.3s ease; 
   box-shadow: 4px 7px 10px rgba(0, 0, 0, 0.6); 
 }
-input:hover {
+.pswdfld{
+  width: 90%;
+  height: 100%;
+  outline: none;
+  background-color: transparent;
+color: white;
+  border: none;
+}
+.inputfld:hover,.pswdin:hover {
   background: rgb(36, 42, 56);
 }
-input:focus{
+.inputfld:focus,.pswdin:focus{
   border: 1px solid hsl(82, 72%, 62%,0.2);
   border-bottom: 1px solid #B1E457;
 }
@@ -148,6 +157,14 @@ input:focus{
   align-items: center;
   justify-content: space-around;
   padding: 15px;
+}
+.inputp{
+  width: 90%;
+  display: flex;
+  padding: 15px;
+  flex-direction: column;
+  align-items: center;
+  
 }
 .inputs{
   display: flex;
@@ -164,7 +181,7 @@ input:focus{
   opacity: 1; /* Firefox */
 }
 
-::-ms-input-placeholder { /* Edge 12 -18 */
+::-ms-input-placeholder { 
   color: rgb(142, 140, 140);
 }
 .submitbtn{
@@ -179,6 +196,7 @@ font-family: 'Raleway', sans-serif;
   cursor: pointer;
 font-size: 16px;
 margin: 10px 0px;
+color: black;
 }
 .submitbtn:hover{
   transform: scale(1.01);
@@ -193,4 +211,67 @@ margin: 10px 0px;
   justify-content: center;
   opacity: 0.6;
   font-size: 12px;
+}
+.eye{
+color: white;
+}
+.strength-password {
+  position: relative;
+  width: 0%;
+  height: 3px;
+  top: 9px;
+  left: 0;
+  background: transparent;
+  transition: all 300ms ease-in-out;
+}
+
+.strength-password[data-score="null"] {
+  width: 0;
+  background: red;
+}
+
+.strength-password[data-score="0"] {
+  width: 5%;
+  background: #f44336;
+}
+
+.strength-password[data-score="1"] {
+  width: 25%;
+  background: #f44336;
+}
+
+.strength-password[data-score="2"] {
+  width: 50%;
+  background: #ffeb3b;
+}
+
+.strength-password[data-score="3"] {
+  width: 100%;
+  background: #4caf50;
+}
+
+.strength-password[data-score="4"] {
+  width: 100%;
+  background: #4caf50;
+}
+.p{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  justify-content: space-around;
+}
+.dis{
+  background-color: #546d2a;
+  cursor:not-allowed;
+  transition: ease 1s;
+  transform: scale(1) !important;
+}
+
+.toast-message {
+  background-color: #212936 !important;
+  box-shadow: 4px 7px 10px rgba(0, 0, 0, 0.6) !important; 
+  color: rgba(255, 255, 255, 0.654) !important;
+  font-size: 13px;
+  
 }
