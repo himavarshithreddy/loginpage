@@ -1,22 +1,27 @@
 import './App.css';
 import React, { useState, useRef } from 'react';
+import { database } from "./firebase";
 import LoadingBar from 'react-top-loading-bar';
 import emailicon from './assests/email.png';
 import nameicon from './assests/user.png';
 import pswdicon from './assests/padlock.png';
-import { GoogleOAuthProvider } from '@react-oauth/google';
-import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-
+import { Tooltip as ReactTooltip } from 'react-tooltip'
+import 'react-tooltip/dist/react-tooltip.css'
 import 'react-toastify/dist/ReactToastify.css';
-
+import { FaInfoCircle } from 'react-icons/fa';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,updateProfile
+} from "firebase/auth";
 
 var zxcvbn= require("zxcvbn");
 
 function App() {
+  
   const navigate = useNavigate();
  const [action,setaction]=useState("Sign Up");
  const [score,setscore]=useState("null");
@@ -38,14 +43,58 @@ function App() {
       setscore("null")
     }
   }
-  const handleSignUp = () => {
-    if (score !== 4 && score !== 3) {
-      toast.error("Password Requirement does not meet.", {
-        autoClose: 2000,
-        className: "toast-message",
-      });} else {
-      // Add your logic for handling successful sign-up
-      navigate("/dashboard");
+
+  const handleSubmit = (e, {action}) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    const name = e.target.name.value;
+    if (action === "Sign Up") {
+      if (score !== 4 && score !== 3) {
+        toast.error("Password Requirement does not meet.", {
+          autoClose: 2000,
+          className: "toast-message",
+        });}
+        else{
+      createUserWithEmailAndPassword(database, email, password)
+        .then((data) => {
+          const user = data.user;
+          updateDisplayName(user, name);
+          console.log(data, "authData");
+          navigate("/dashboard");
+        })
+        .catch((err) => {
+          toast.error(err.code, {
+            autoClose: 2000,
+            className: "toast-message",
+          });
+         
+
+        });
+      }
+    } else {
+      signInWithEmailAndPassword(database, email, password)
+        .then((data) => {
+          console.log(data, "authData");
+          navigate("/dashboard");
+        })
+        .catch((err) => {
+          toast.error(err.code, {
+            autoClose: 2000,
+            className: "toast-message",
+          });
+        });
+    }
+  };
+  const updateDisplayName = (user, name) => {
+    if (user) {
+      updateProfile(user, { displayName: name })
+        .then(() => {
+         
+        })
+        .catch((error) => {
+          console.error('Error updating name:', error.message);
+        });
     }
   };
 
@@ -65,20 +114,21 @@ function App() {
       <button className={action==="Sign Up"?"btn btn2 active" : "btn btn2"} onClick={()=>{setaction("Sign Up"); handleToggle()}}>Sign Up</button>
      </div>
      <div className='inputs'>
+     <form className='form' onSubmit={(e) => handleSubmit(e, {action})}>
       {action==="Sign In"?<div></div>:<div className='input'>
         <img className='img' src={nameicon} alt=''/>
-        <input className='inputfld' type='text'required placeholder='Name'/>
+        <input name='name' className='inputfld' type='text' placeholder='Name'/>
       </div>}
       
       <div className='input'>
         <img className='img' src={emailicon} alt=''/>
-        <input className='inputfld' type='email' required placeholder='Email'/>
+        <input name='email' className='inputfld' type='email' required placeholder='Email'/>
       </div>
       <div className='inputp '>
         <div className='p'>
         <img className='img' src={pswdicon} alt=''/>
         <div className='pswdin'>
-        <input className='pswdfld' type={visible ? "text":"password"} autocomplete="off" id='password' onChange={testpswdstr}  placeholder='Password'/>
+        <input name='password' className='pswdfld' type={visible ? "text":"password"} autocomplete="off" id='password' onChange={testpswdstr}  placeholder='Password'/>
         <span className='eye' onClick={()=>setvisible(!visible)}>
           {visible ? <FaEyeSlash /> : <FaEye />}
         </span>
@@ -90,21 +140,10 @@ function App() {
       />:<div></div>}
        
       </div>
-      {action==="Sign In"? <button className='submitbtn'>{action}</button>: <button  onClick={handleSignUp} className={isSignUpDisabled ? 'submitbtn dis' : 'submitbtn'}>{action}</button>}
+       <button onClick={handleToggle} className={isSignUpDisabled ? 'submitbtn dis' : 'submitbtn'}>{action}</button>
+      </form>
       <ToastContainer />
-      <GoogleOAuthProvider clientId="260684329336-k6iq17cretjcqdjo3muuorsukjhtbqof.apps.googleusercontent.com">
-      <GoogleLogin
-  onSuccess={credentialResponse => {
-    const decoded = jwtDecode(credentialResponse.credential);
-
-    console.log(decoded);
-  }}
-  onError={() => {
-    console.log('Login Failed');
-  }}
-/>;
-        
-        </GoogleOAuthProvider>;
+      
      </div>
       
     <div className='or'>
@@ -112,6 +151,10 @@ function App() {
     </div>
      </div>
      <LoadingBar color='#91d223' ref={loadingBar} />
+     <FaInfoCircle
+        data-tooltip-content="By HimavarshithReddy"
+        data-tooltip-id="tooltip"  className='info' size={20} />
+         <ReactTooltip className="tooltip" id="tooltip" place="bottom" effect="solid" />
     </div>
   );
 }
