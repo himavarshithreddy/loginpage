@@ -123,7 +123,7 @@ font-family: 'Raleway', sans-serif;
 .inputfld, .pswdin{
   width: 80%;
   height: 33px;
-  background: rgba(39, 49, 65, 0.8);
+  background: rgba(39, 49, 65, 1  );
   outline: none;
   border: none;
   font-family: 'Mohave', sans-serif;
@@ -232,18 +232,18 @@ color: white;
 }
 
 .strength-password[data-score="0"] {
-  width: 5%;
+  width: 10%;
   background: #f44336;
 }
 
 .strength-password[data-score="1"] {
-  width: 25%;
-  background: #f44336;
+  width: 40%;
+  background: #ffeb3b;
 }
 
 .strength-password[data-score="2"] {
-  width: 50%;
-  background: #ffeb3b;
+  width: 75%;
+  background: #4caf50;
 }
 
 .strength-password[data-score="3"] {

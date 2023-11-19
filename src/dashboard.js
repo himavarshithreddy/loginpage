@@ -1,7 +1,7 @@
-import React, {useRef } from 'react';
+import React, {useState,useRef, useEffect } from 'react';
 import './dashboard.css';
 import dash from './assests/dashboard.png'
-import { signOut } from "firebase/auth";
+import { signOut,onAuthStateChanged,getAuth } from "firebase/auth";
 import { database } from './firebase';
 import { useNavigate } from "react-router-dom";
 import { Tooltip as ReactTooltip } from 'react-tooltip'
@@ -12,7 +12,11 @@ import { ToastContainer, toast } from 'react-toastify';
 import LoadingBar from 'react-top-loading-bar';
 
 function Dashboard(){
+    
     const navigate = useNavigate();
+    const [name,setname]=useState("");
+    const [email,setemail]=useState("");
+
     const loadingBar = useRef(null);
 
     const handleClick = () =>{
@@ -31,11 +35,25 @@ function Dashboard(){
         }, 1200);
         
     }
+    useEffect(() => {
+        const auth = getAuth();
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+          if (user) {
+            setname(user.displayName || ''); 
+            setemail(user.email || '');
+          } else {
+           
+            navigate('/');
+          }
+        });
+    
+        return () => unsubscribe(); 
+      }, [navigate]);
     return(<div className="dashboard">
-<div class="triangle1"></div>
-     <div class="triangle2"></div>
-     <div class="triangle3"></div>
-     <div class="triangle4"></div>
+<div className="triangle1"></div>
+     <div className="triangle2"></div>
+     <div className="triangle3"></div>
+     <div className="triangle4"></div>
      <div className="con">
      <div className='dheader'>
      <div className='dtext'>Dashboard</div>
@@ -43,6 +61,8 @@ function Dashboard(){
      </div>
      <img className="dicon" width='100px' src={dash} alt=""></img>
      <ToastContainer />
+     <div className='details'>Name : <span>&nbsp;&nbsp;{name}</span></div>
+     <div className='details'>Email&nbsp; : <span>&nbsp;&nbsp;{email}</span></div>
      <button onClick={handleClick} className="dsubmitbtn">Sign Out</button>
 
 

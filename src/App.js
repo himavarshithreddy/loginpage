@@ -5,7 +5,6 @@ import LoadingBar from 'react-top-loading-bar';
 import emailicon from './assests/email.png';
 import nameicon from './assests/user.png';
 import pswdicon from './assests/padlock.png';
-import { jwtDecode } from "jwt-decode";
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { Tooltip as ReactTooltip } from 'react-tooltip'
@@ -28,7 +27,7 @@ function App() {
  const loadingBar = useRef(null);
 
  const [visible,setvisible]=useState(false);
- const isSignUpDisabled = action === 'Sign Up' && (score !== 4 && score !== 3);
+ const isSignUpDisabled = action === 'Sign Up' && (score !== 4 && score !== 3 && score !==2);
 
   const handleToggle = () => {
     loadingBar.current.continuousStart();
@@ -50,7 +49,7 @@ function App() {
     const password = e.target.password.value;
     const name = e.target.name.value;
     if (action === "Sign Up") {
-      if (score !== 4 && score !== 3) {
+      if (score !== 4 && score !== 3 && score !== 2) {
         toast.error("Password Requirement does not meet.", {
           autoClose: 2000,
           className: "toast-message",
@@ -100,10 +99,10 @@ function App() {
 
   return (
     <div className="App">
-     <div class="triangle1"></div>
-     <div class="triangle2"></div>
-     <div class="triangle3"></div>
-     <div class="triangle4"></div>
+     <div className="triangle1"></div>
+     <div className="triangle2"></div>
+     <div className="triangle3"></div>
+     <div className="triangle4"></div>
      <div className='container'>
       <div className='header'>
      <div className='text'>{action}</div>
@@ -128,7 +127,7 @@ function App() {
         <div className='p'>
         <img className='img' src={pswdicon} alt=''/>
         <div className='pswdin'>
-        <input name='password' className='pswdfld' type={visible ? "text":"password"} autocomplete="off" id='password' onChange={testpswdstr}  placeholder='Password'/>
+        <input name='password' className='pswdfld' type={visible ? "text":"password"} autoComplete="off" id='password' onChange={testpswdstr}  placeholder='Password'/>
         <span className='eye' onClick={()=>setvisible(!visible)}>
           {visible ? <FaEyeSlash /> : <FaEye />}
         </span>
