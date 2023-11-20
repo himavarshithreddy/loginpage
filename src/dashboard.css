@@ -116,3 +116,21 @@ text-align: center;
   color: white;
   font-weight: normal;
 }
+.dsendbtn{
+  background-color: #B1E457;
+  border-radius: 3px;
+  box-shadow: 4px 7px 10px rgba(0, 0, 0, 0.6); 
+width: auto;
+height: 35px;
+font-family: 'Mohave', sans-serif;
+font-family: 'Raleway', sans-serif;
+  font-weight: bold;
+  cursor: pointer;
+font-size: 16px;
+margin: 20px 0px;
+color: black;
+}
+.dsendbtn:hover{
+  transform: scale(1.01);
+  transition: ease 0.2s;
+}

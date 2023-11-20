@@ -14,7 +14,7 @@ import { FaInfoCircle } from 'react-icons/fa';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import {
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,updateProfile
+  signInWithEmailAndPassword,updateProfile, getAuth
 } from "firebase/auth";
 
 var zxcvbn= require("zxcvbn");
@@ -108,9 +108,12 @@ function App() {
       });
     }
   };
-  
+  const auth = getAuth();
+  const user=auth.user;
+  if(!user){
 
   return (
+    
     <div className="App">
      <div className="triangle1"></div>
      <div className="triangle2"></div>
@@ -169,6 +172,8 @@ function App() {
          <ReactTooltip className="tooltip" id="tooltip" place="bottom" effect="solid" />
     </div>
   );
+  }
+  
 }
 
 export default App;
