@@ -43,59 +43,72 @@ function App() {
     }
   }
 
-  const handleSubmit = (e, {action}) => {
+  const handleSubmit = async (e, { action }) => {
+    loadingBar.current.continuousStart();
+    loadingBar.current.complete(); 
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
     const name = e.target.name.value;
+  
     if (action === "Sign Up") {
       if (score !== 4 && score !== 3 && score !== 2) {
         toast.error("Password Requirement does not meet.", {
           autoClose: 2000,
           className: "toast-message",
-        });}
-        else{
-      createUserWithEmailAndPassword(database, email, password)
-        .then((data) => {
+        });
+      } else {
+        try {
+          const data = await createUserWithEmailAndPassword(database, email, password);
           const user = data.user;
-          updateDisplayName(user, name);
+          await updateDisplayName(user, name);
           console.log(data, "authData");
           navigate("/dashboard");
-        })
-        .catch((err) => {
-          toast.error(err.code, {
-            autoClose: 2000,
-            className: "toast-message",
-          });
-         
-
-        });
+        } catch (err) {
+          handleAuthError(err);
+        }
       }
     } else {
-      signInWithEmailAndPassword(database, email, password)
-        .then((data) => {
-          console.log(data, "authData");
-          navigate("/dashboard");
-        })
-        .catch((err) => {
-          toast.error(err.code, {
-            autoClose: 2000,
-            className: "toast-message",
-          });
-        });
+      try {
+        const data = await signInWithEmailAndPassword(database, email, password);
+        console.log(data, "authData");
+        navigate("/dashboard");
+      } catch (err) {
+        handleAuthError(err);
+      }
     }
   };
-  const updateDisplayName = (user, name) => {
+  
+  const updateDisplayName = async (user, name) => {
     if (user) {
-      updateProfile(user, { displayName: name })
-        .then(() => {
-         
-        })
-        .catch((error) => {
-          console.error('Error updating name:', error.message);
-        });
+      try {
+        await updateProfile(user, { displayName: name });
+      } catch (error) {
+        console.error('Error updating name:', error.message);
+        throw error; // Re-throw the error to be caught by the calling function (handleSubmit)
+      }
     }
   };
+  
+  const handleAuthError = (err) => {
+    if (err.code === "auth/email-already-in-use") {
+      toast.error("Email Already in Use!", {
+        autoClose: 2000,
+        className: "toast-message",
+      });
+    } else if (err.code === "auth/invalid-login-credentials") {
+      toast.error("Invalid Password!", {
+        autoClose: 2000,
+        className: "toast-message",
+      });
+    } else {
+      toast.error(err.code, {
+        autoClose: 2000,
+        className: "toast-message",
+      });
+    }
+  };
+  
 
   return (
     <div className="App">
@@ -116,7 +129,7 @@ function App() {
      <form className='form' onSubmit={(e) => handleSubmit(e, {action})}>
       {action==="Sign In"?<div></div>:<div className='input'>
         <img className='img' src={nameicon} alt=''/>
-        <input name='name' className='inputfld' type='text' placeholder='Name'/>
+        <input name='name' className='inputfld' type='text'required placeholder='Name'/>
       </div>}
       
       <div className='input'>
@@ -139,7 +152,7 @@ function App() {
       />:<div></div>}
        
       </div>
-       <button onClick={handleToggle} className={isSignUpDisabled ? 'submitbtn dis' : 'submitbtn'}>{action}</button>
+       <button className={isSignUpDisabled ? 'submitbtn dis' : 'submitbtn'}>{action}</button>
       </form>
       <ToastContainer />
       
