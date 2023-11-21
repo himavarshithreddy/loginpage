@@ -112,6 +112,9 @@ font-family: 'Raleway', sans-serif;
 font-weight: bold;
 text-align: center;
 }
+.spclfont>span{
+  font-family:'Courier New', Courier, monospace !important;
+}
 .details>span{
   color: white;
   font-weight: normal;

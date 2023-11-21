@@ -5,28 +5,48 @@ import LoadingBar from 'react-top-loading-bar';
 import emailicon from './assests/email.png';
 import nameicon from './assests/user.png';
 import pswdicon from './assests/padlock.png';
+import call from './assests/call.png'
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { Tooltip as ReactTooltip } from 'react-tooltip'
 import 'react-tooltip/dist/react-tooltip.css'
 import 'react-toastify/dist/ReactToastify.css';
 import { FaInfoCircle } from 'react-icons/fa';
+
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import OtpInput from "otp-input-react";
 import {
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,updateProfile, getAuth
+  signInWithEmailAndPassword,updateProfile, RecaptchaVerifier, signInWithPhoneNumber, getAuth
 } from "firebase/auth";
 
 var zxcvbn= require("zxcvbn");
 
 function App() {
   
+  const auth = getAuth();
   const navigate = useNavigate();
+  const [otp, setOtp] = useState('');
+   const [ph, setPh] = useState("");
  const [action,setaction]=useState("Sign Up");
  const [score,setscore]=useState("null");
+ const [phnormail , setphnormail] = useState("Phone Number");
  const loadingBar = useRef(null);
 
  const [visible,setvisible]=useState(false);
+ const [showOTP, setShowOTP] = useState(false);
+
+
+
+ const handlephnoremail = () => {
+  handleToggle();
+  // eslint-disable-next-line no-lone-blocks
+  {phnormail==="Email"?setphnormail("Phone Number"):setphnormail("Email");}
+  console.log(phnormail)
+};
+
  const isSignUpDisabled = action === 'Sign Up' && (score !== 4 && score !== 3 && score !==2);
 
   const handleToggle = () => {
@@ -97,24 +117,95 @@ function App() {
         className: "toast-message",
       });
     } else if (err.code === "auth/invalid-login-credentials") {
-      toast.error("Invalid Password!", {
+      toast.error("Invalid Login Credentials!", {
         autoClose: 2000,
         className: "toast-message",
       });
-    } else {
+    } 
+    else if (err.code === "auth/invalid-phone-number") {
+      toast.error("Invalid Phone Number!", {
+        autoClose: 2000,
+        className: "toast-message",
+      });
+    }
+    else if (err.code === "auth/invalid-verification-code") {
+      toast.error("Incorrect OTP!", {
+        autoClose: 2000,
+        className: "toast-message",
+      }); 
+    }else {
       toast.error(err.code, {
         autoClose: 2000,
         className: "toast-message",
       });
     }
   };
-  const auth = getAuth();
-  const user=auth.user;
-  if(!user){
+  function onCaptchVerify() {
+    if (!window.recaptchaVerifier) {
+    window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+      'size': "invisible"
+    });
+  }
+  
+    }
+  
+  function onSignup() {
+  
+    onCaptchVerify();
+
+    const appVerifier = window.recaptchaVerifier;
+
+    const formatPh = "+" + ph;
+
+    signInWithPhoneNumber(database, formatPh, appVerifier)
+      .then((confirmationResult) => {
+        handleToggle();
+        window.confirmationResult = confirmationResult;
+        setShowOTP(true);
+      
+        toast.success("OTP sent Successfully!", {
+          autoClose: 2000,
+          className: "toast-message",
+        });
+      })
+      .catch((error) => {
+        handleAuthError(error);
+        console.log(error);
+        
+      });
+
+      
+  }
+
+  function onOTPVerify() {
+    
+    window.confirmationResult
+      .confirm(otp)
+      .then(async (res) => {
+        console.log(res);
+      if(action==="Sign Up"){
+        const name = document.getElementById('name').value;
+        
+        await updateDisplayName(res.user, name);
+      }
+        handleToggle();
+        
+
+  // Reset reCAPTCHA variables
+  window.recaptchaVerifier = null;
+        navigate("/dashboard");
+      })
+      .catch((err) => {
+        handleAuthError(err);
+        console.log(err);
+      
+      });
+  }
 
   return (
     
     <div className="App">
+      
      <div className="triangle1"></div>
      <div className="triangle2"></div>
      <div className="triangle3"></div>
@@ -128,6 +219,8 @@ function App() {
       <button className={action==="Sign In"?"btn btn1 active" : "btn btn1"} onClick={()=>{setaction("Sign In"); handleToggle()} }>Sign In</button>
       <button className={action==="Sign Up"?"btn btn2 active" : "btn btn2"} onClick={()=>{setaction("Sign Up"); handleToggle()}}>Sign Up</button>
      </div>
+     {phnormail ==="Phone Number"?<>
+    
      <div className='inputs'>
      <form className='form' onSubmit={(e) => handleSubmit(e, {action})}>
       {action==="Sign In"?<div></div>:<div className='input'>
@@ -153,17 +246,60 @@ function App() {
         className="strength-password"
         data-score={score}
       />:<div></div>}
-       
+      <div className='askphn'>
+       <div onClick={handlephnoremail} className='usephn'>Use {phnormail} Instead</div>
+       </div>
       </div>
-       <button className={isSignUpDisabled ? 'submitbtn dis' : 'submitbtn'}>{action}</button>
+       <button type='submit' className={isSignUpDisabled ? 'submitbtn dis' : 'submitbtn'}>{action}</button>
       </form>
       <ToastContainer />
       
      </div>
+     </>:<>
+     <div className='inputs'>
+     {action==="Sign In"?<div></div>:<div className='input'>
+        <img className='img' src={nameicon} alt=''/>
+        <input name='name' className='inputfld' id='name' type='text'required placeholder='Name'/>
+      </div>}
+      <div className='input splinpput'>
+        <img className='img' src={call} alt=''/>
+        <div>
+        <label>
+        <PhoneInput className="phninput" country={"in"} value={ph} onChange={setPh} />
+        </label>
+        <div className='askphn'>
+       <div onClick={handlephnoremail} className='usephn'>Use {phnormail} Instead</div>
+       </div>     
+        </div>
+      </div>
+      <div id="recaptcha-container"></div>
+      <button  onClick={onSignup}  className='submitbtn'>Send Code via SMS</button>
+      <ToastContainer />
+     
       
-    <div className='or'>
+      {showOTP?
+      
+      <>
+       <p className='otptext'>Enter OTP</p>
+       <div className='input'>
+       
+                <OtpInput
+                  value={otp}
+                  onChange={setOtp}
+                  OTPLength={6}
+                  otpType="number"
+                  disabled={false}
+                  autoFocus
+                  className="otp "
+                ></OtpInput>
+              </div><button onClick={onOTPVerify} className='submitbtn'>Verify OTP</button></>:<div></div>}
+      
+     </div>
+     </>}
+     {showOTP?<div></div>:<> <div className='or'>
      or {action} with 
-    </div>
+    </div></>}
+   
      </div>
      <LoadingBar color='#91d223' ref={loadingBar} />
      <FaInfoCircle
@@ -172,7 +308,7 @@ function App() {
          <ReactTooltip className="tooltip" id="tooltip" place="bottom" effect="solid" />
     </div>
   );
-  }
+  
   
 }
 

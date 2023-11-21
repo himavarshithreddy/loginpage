@@ -196,7 +196,7 @@ font-family: 'Raleway', sans-serif;
   font-weight: bold;
   cursor: pointer;
 font-size: 16px;
-margin: 10px 0px;
+margin: 0px 0px 5px 0px;
 color: black;
 }
 .submitbtn:hover{
@@ -298,4 +298,99 @@ color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.askphn{
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+.usephn{
+  background-color: transparent;
+  margin: 0;
+  color: #B1E457;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  padding: 0px 10px;
+  font-size: 12px;
+opacity: 0.9;
+}
+.otp{
+  margin: 5px;
+}
+.otp>input{
+  background-color: rgba(39, 49, 65, 1  );
+  outline: none;
+  border: 1px solid hsl(82, 72%, 62%,0.5);
+  color: white;
+  font-size: 20px;
+  margin: 0px 5px !important;
+  
+}
+.otp>input:first-child{
+  margin-left: 0 !important;
+}
+.otptext{
+  color: white;
+  margin: 5px 0px 0px;
+}
+.phninput>input{
+  background-color: rgba(39, 49, 65, 1  ) !important;
+  border: none !important;
+  border-bottom: 1px solid #B1E457 !important;
+  outline: none !important;
+  border-radius:0 !important ;
+  box-shadow: 4px 7px 10px rgba(0, 0, 0, 0.6) !important; 
+  color: white;
+  font-size: 15px !important;
+  transition: background 0.3s ease; 
+  
+}
+.phninput>input:hover {
+  background: rgb(36, 42, 56) !important;
+}
+.phninput>input:focus{
+  border: 1px solid hsl(82, 72%, 62%,0.2) !important;
+  border-bottom: 1px solid #B1E457 !important;
+}
+.country-list{
+  background: rgb(36, 42, 56) !important;
+  color: white !important;
+}
+.country:hover{
+  background: rgba(91, 121, 186, 0.3) !important;
+}
+.country-list .country.highlight{
+  background-color: rgb(43, 64, 102) !important;
+}
+.dial-code{
+  color: darkgray !important;
+}
+.react-tel-input .selected-flag:hover, .react-tel-input .selected-flag:focus {
+  background: rgb(43, 51, 68) !important;
+  border-radius: 0 !important; 
+}
+.react-tel-input .selected-flag .arrow {
+  border-top: 4px solid white !important;
+}
+.flag-dropdown{
+  background-color: rgba(39, 49, 65, 1  ) !important ;
+  outline: none !important;
+  border: none !important;
+  border-bottom: 1px solid #B1E457 !important;
+  border-radius:0 !important ;
+}
+
+.flag-dropdown.open .selected-flag{
+  background: rgb(36, 42, 56) !important;
+}
+.flag-dropdown.open .selected-flag:hover{
+  background: rgb(36, 42, 56) !important;
+}
+.splinpput{
+  align-items: flex-start !important;
+}
+.splinpput>img{
+  margin-top: 5px !important;
 }

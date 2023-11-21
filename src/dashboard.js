@@ -17,6 +17,7 @@ function Dashboard(){
     const navigate = useNavigate();
     const [name,setname]=useState("");
     const [email,setemail]=useState("");
+    const [phnnum,setphnnum]=useState("");
     const [verified,setverification]=useState("Not Verified");
     const loadingBar = useRef(null);
 
@@ -62,8 +63,9 @@ const handlesend = () =>{
         const unsubscribe = onAuthStateChanged(auth, (user) => {
           if (user) {
             console.log(user.displayName)
-            setname(user.displayName || ''); 
-            setemail(user.email || '');
+            setname(user.displayName || "Not available"); 
+            setemail(user.email || "Not available");
+            setphnnum(user.phoneNumber || "Not available")
             if(user.emailVerified===false){
               setverification("Not Verified");
             }
@@ -92,8 +94,9 @@ const handlesend = () =>{
      <ToastContainer />
      <div className='details'>Name : <span>&nbsp;&nbsp;{name}</span></div>
      <div className='details'>Email&nbsp; : <span>&nbsp;&nbsp;{email}</span></div>
+     <div className='details spclfont'>Phone Number&nbsp; : <span>&nbsp;&nbsp;{phnnum}</span></div>
      <div className='details'>Email Verification&nbsp; : <span>&nbsp;&nbsp;{verified}&nbsp;{verified==="Not Verified"?<ImCross size={15} color='#ce4d4d'/>:<SiVerizon size={15} color='#5cbb5c' />}</span></div>
-     <button onClick={handlesend} className="dsendbtn">Send Email Verification</button>
+    {verified==="Not Verified"?<button onClick={handlesend} className="dsendbtn">Send Email Verification</button>:<div></div>} 
      <button onClick={handleClick} className="dsubmitbtn">Sign Out</button>
     
 
