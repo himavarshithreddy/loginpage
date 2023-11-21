@@ -1,6 +1,6 @@
 import './App.css';
 import React, { useState, useRef } from 'react';
-import { database } from "./firebase";
+import { database,gprovider,ghprovider } from "./firebase";
 import LoadingBar from 'react-top-loading-bar';
 import emailicon from './assests/email.png';
 import nameicon from './assests/user.png';
@@ -19,7 +19,7 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import OtpInput from "otp-input-react";
 import {
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,updateProfile, RecaptchaVerifier, signInWithPhoneNumber, getAuth
+  signInWithEmailAndPassword,updateProfile, RecaptchaVerifier, signInWithPhoneNumber, getAuth,signInWithPopup
 } from "firebase/auth";
 
 var zxcvbn= require("zxcvbn");
@@ -188,11 +188,12 @@ function App() {
         
         await updateDisplayName(res.user, name);
       }
-        handleToggle();
+       
         
 
   // Reset reCAPTCHA variables
   window.recaptchaVerifier = null;
+  handleToggle();
         navigate("/dashboard");
       })
       .catch((err) => {
@@ -200,6 +201,26 @@ function App() {
         console.log(err);
       
       });
+  }
+  const handlegoogle = () =>{
+    signInWithPopup(database,gprovider).then((data)=>{
+      console.log(data)
+      navigate("/dashboard");
+    }).catch((err) => {
+      handleAuthError(err);
+      console.log(err);
+    
+    });
+  }
+  const handlegithub = () =>{
+    signInWithPopup(database,ghprovider).then((data)=>{
+      console.log(data)
+      navigate("/dashboard");
+    }).catch((err) => {
+      handleAuthError(err);
+      console.log(err);
+    
+    });
   }
 
   return (
@@ -298,7 +319,11 @@ function App() {
      </>}
      {showOTP?<div></div>:<> <div className='or'>
      or {action} with 
-    </div></>}
+    </div>
+    <button onClick={handlegoogle}>Sign in with google</button>
+    <button onClick={handlegithub}>Sign in with Github</button>
+    
+    </>}
    
      </div>
      <LoadingBar color='#91d223' ref={loadingBar} />
