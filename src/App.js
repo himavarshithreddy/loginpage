@@ -1,6 +1,6 @@
 import './App.css';
 import React, { useState, useRef } from 'react';
-import { database,gprovider,ghprovider } from "./firebase";
+import { database,gprovider,ghprovider,mprovider } from "./firebase";
 import LoadingBar from 'react-top-loading-bar';
 import emailicon from './assests/email.png';
 import nameicon from './assests/user.png';
@@ -222,6 +222,16 @@ function App() {
     
     });
   }
+  const handlemicrosoft = () =>{
+    signInWithPopup(database,mprovider).then((data)=>{
+      console.log(data)
+      navigate("/dashboard");
+    }).catch((err) => {
+      handleAuthError(err);
+      console.log(err);
+    
+    });
+  }
 
   return (
     
@@ -322,6 +332,7 @@ function App() {
     </div>
     <button onClick={handlegoogle}>Sign in with google</button>
     <button onClick={handlegithub}>Sign in with Github</button>
+    <button onClick={handlemicrosoft}>Sign in with Microsoft</button>
     
     </>}
    
