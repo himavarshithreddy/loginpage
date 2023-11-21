@@ -50,7 +50,7 @@
 }
 .container{
   width: 30%;
-  height: 75%;
+  
   background-color: #212936;
   box-shadow: 4px 7px 10px rgba(0, 0, 0, 0.6); 
   border-radius: 10px;
@@ -205,14 +205,14 @@ color: black;
   opacity: 0.9;
 }
 .or{
-  margin: 0;
+  margin: 5px 0;
   width: 100%;
   align-items: center;
   display: flex;
   color: white;
   justify-content: center;
   opacity: 0.6;
-  font-size: 12px;
+  font-size: 13px;
 }
 .eye{
 color: white;
@@ -393,4 +393,25 @@ opacity: 0.9;
 }
 .splinpput>img{
   margin-top: 5px !important;
+}
+.sociallogin{
+  display: flex;
+  justify-content: space-evenly;
+align-items: center;
+  padding: 15px 0;
+  margin: 10px 0;
+}
+.last{
+  margin: 15px 0;
+}
+.socialimg{
+  background-color: transparent;
+width: 35px;
+  cursor: pointer;
+  transition: ease 0.2s;
+  box-shadow: 4px 7px 10px rgba(0, 0, 0, 0.6) !important; 
+}
+.socialimg:hover{
+  opacity: 0.9;
+  transform: scale(1.1);
 }

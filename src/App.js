@@ -14,6 +14,9 @@ import { Tooltip as ReactTooltip } from 'react-tooltip'
 import 'react-tooltip/dist/react-tooltip.css'
 import 'react-toastify/dist/ReactToastify.css';
 import { FaInfoCircle } from 'react-icons/fa';
+import github from './assests/github.png'
+import google from './assests/google.png'
+import microsoft from './assests/microsoft.png'
 
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import OtpInput from "otp-input-react";
@@ -323,25 +326,31 @@ function App() {
                   autoFocus
                   className="otp "
                 ></OtpInput>
-              </div><button onClick={onOTPVerify} className='submitbtn'>Verify OTP</button></>:<div></div>}
+              </div><button onClick={onOTPVerify} className='submitbtn last'>Verify OTP</button></>:<div></div>}
       
      </div>
      </>}
      {showOTP?<div></div>:<> <div className='or'>
      or {action} with 
     </div>
-    <button onClick={handlegoogle}>Sign in with google</button>
-    <button onClick={handlegithub}>Sign in with Github</button>
-    <button onClick={handlemicrosoft}>Sign in with Microsoft</button>
+    <div className='sociallogin'>
     
+    <img onClick={handlegoogle} data-tooltip-content="Login with Google"
+        data-tooltip-id="tooltip2"  className='socialimg' src={google} alt=''/>
+    <img onClick={handlegithub} data-tooltip-content="Login with Github"
+        data-tooltip-id="tooltip3"  className='socialimg' src={github} alt=''/>
+    <img  onClick={handlemicrosoft} data-tooltip-content="Login with Microsoft"
+        data-tooltip-id="tooltip4"  className='socialimg'src={microsoft} alt=''/>
+  
+    </div>
     </>}
    
      </div>
      <LoadingBar color='#91d223' ref={loadingBar} />
      <FaInfoCircle
         data-tooltip-content="By HimavarshithReddy"
-        data-tooltip-id="tooltip"  className='info' size={20} />
-         <ReactTooltip className="tooltip" id="tooltip" place="bottom" effect="solid" />
+        data-tooltip-id="tooltip1"  className='info' size={20} />
+         <ReactTooltip className="tooltip" id="tooltip1" place="top" effect="solid" />
     </div>
   );
   

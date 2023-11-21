@@ -123,8 +123,10 @@ text-align: center;
   background-color: #B1E457;
   border-radius: 3px;
   box-shadow: 4px 7px 10px rgba(0, 0, 0, 0.6); 
-width: auto;
+width: 40%;
 height: 35px;
+
+text-align: center;
 font-family: 'Mohave', sans-serif;
 font-family: 'Raleway', sans-serif;
   font-weight: bold;

@@ -12,8 +12,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import LoadingBar from 'react-top-loading-bar';
 import { ImCross } from "react-icons/im";
 import { SiVerizon } from "react-icons/si";
+import Modal from './modal';
 function Dashboard(){
-    
+    const[openmodal,setopenmodal]= useState(false)
     const navigate = useNavigate();
     const [name,setname]=useState("");
     const [email,setemail]=useState("");
@@ -39,9 +40,13 @@ function Dashboard(){
 
     }
     const actionCodeSettings = {
-      url: 'http://localhost:3000/dashboard', 
+      
+       url : 'https://loginpage-himavarshithreddy.vercel.app/dashboard'
     };
 const handlesend = () =>{
+  if(email==="Not available"){
+    setopenmodal(true);
+  }else{
     const auth2 = getAuth();
     if(verified==="Not Verified"){
     sendEmailVerification(auth2.currentUser, actionCodeSettings)
@@ -58,6 +63,7 @@ const handlesend = () =>{
       });
     }
   }
+}
     useEffect(() => {
       const auth = getAuth();
         const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -96,9 +102,9 @@ const handlesend = () =>{
      <div className='details'>Email&nbsp; : <span>&nbsp;&nbsp;{email}</span></div>
      <div className='details spclfont'>Phone Number&nbsp; : <span>&nbsp;&nbsp;{phnnum}</span></div>
      <div className='details'>Email Verification&nbsp; : <span>&nbsp;&nbsp;{verified}&nbsp;{verified==="Not Verified"?<ImCross size={15} color='#ce4d4d'/>:<SiVerizon size={15} color='#5cbb5c' />}</span></div>
-    {verified==="Not Verified"?<button onClick={handlesend} className="dsendbtn">Send Email Verification</button>:<div></div>} 
+    {verified==="Not Verified"?<button onClick={handlesend} className="dsendbtn">Verify Email</button>:<div></div>} 
      <button onClick={handleClick} className="dsubmitbtn">Sign Out</button>
-    
+    {openmodal && <Modal closemodal={setopenmodal}/>}
 
 
      </div>
