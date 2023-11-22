@@ -7,7 +7,8 @@
   width: 100%;
   display: flex;
   justify-content: center;
- 
+ align-items: center;
+ flex-direction: column;
 }
 .triangle1{
   width: 0;
@@ -125,7 +126,6 @@ text-align: center;
   box-shadow: 4px 7px 10px rgba(0, 0, 0, 0.6); 
 width: 40%;
 height: 35px;
-
 text-align: center;
 font-family: 'Mohave', sans-serif;
 font-family: 'Raleway', sans-serif;
@@ -138,4 +138,18 @@ color: black;
 .dsendbtn:hover{
   transform: scale(1.01);
   transition: ease 0.2s;
+}
+.buttoncon{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.btncon{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 50%;
+  align-items: center;
 }

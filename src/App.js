@@ -17,7 +17,7 @@ import { FaInfoCircle } from 'react-icons/fa';
 import github from './assests/github.png'
 import google from './assests/google.png'
 import microsoft from './assests/microsoft.png'
-
+import Namemodal from './namemodal';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import OtpInput from "otp-input-react";
 import {
@@ -28,7 +28,7 @@ import {
 var zxcvbn= require("zxcvbn");
 
 function App() {
-  
+  const[openname,setopenname]= useState(false);
   const auth = getAuth();
   const navigate = useNavigate();
   const [otp, setOtp] = useState('');
@@ -45,6 +45,7 @@ function App() {
 
  const handlephnoremail = () => {
   handleToggle();
+  
   // eslint-disable-next-line no-lone-blocks
   {phnormail==="Email"?setphnormail("Phone Number"):setphnormail("Email");}
   console.log(phnormail)
@@ -108,7 +109,7 @@ function App() {
         await updateProfile(user, { displayName: name });
       } catch (error) {
         console.error('Error updating name:', error.message);
-        throw error; // Re-throw the error to be caught by the calling function (handleSubmit)
+        throw error; 
       }
     }
   };
@@ -135,8 +136,10 @@ function App() {
       toast.error("Incorrect OTP!", {
         autoClose: 2000,
         className: "toast-message",
-      }); 
-    }else {
+      }); }
+      
+      
+    else {
       toast.error(err.code, {
         autoClose: 2000,
         className: "toast-message",
@@ -153,7 +156,7 @@ function App() {
     }
   
   function onSignup() {
-  
+    
     onCaptchVerify();
 
     const appVerifier = window.recaptchaVerifier;
@@ -191,13 +194,15 @@ function App() {
         
         await updateDisplayName(res.user, name);
       }
-       
+      const user2 = res.user;
+      if(user2.displayName===null){
+        window.recaptchaVerifier = null;
+        setopenname(true)
         
-
-  // Reset reCAPTCHA variables
+      }else{
   window.recaptchaVerifier = null;
   handleToggle();
-        navigate("/dashboard");
+        navigate("/dashboard");}
       })
       .catch((err) => {
         handleAuthError(err);
@@ -344,8 +349,9 @@ function App() {
   
     </div>
     </>}
-   
+    
      </div>
+     {openname && <Namemodal closename={setopenname}/>}
      <LoadingBar color='#91d223' ref={loadingBar} />
      <FaInfoCircle
         data-tooltip-content="By HimavarshithReddy"

@@ -8,11 +8,11 @@
    align-items: center;
    justify-content: center;
    z-index: 10;
+   background-color: hsl(217, 24%, 17%,0.2);
 }
 .modalcon{
     width: 40%;
     background-color: red;
-
     display: flex;
   align-items: center;
     flex-direction: column;
