@@ -51,7 +51,7 @@ setopenphone(true)
     }
     const actionCodeSettings = {
       
-       url : 'https://loginpage-himavarshithreddy.vercel.app/dashboard'
+       url : 'https://loginapp.himavarshithreddy.in/dashboard'
     };
 const handlesend = () =>{
   if(email==="Not available"){
