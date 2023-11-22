@@ -22,7 +22,7 @@ Welcome to the Login App – a state-of-the-art React application that redefines
 
 ## Screenshots
 
-[Login](src/login.png)
+[Login](src/assests/login.png)
 
 
 
