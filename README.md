@@ -6,23 +6,23 @@ Welcome to the Login App – a state-of-the-art React application that redefines
 
 ## Key Features
 
-- **User Authentication:** Seamlessly authenticate users with a variety of methods, including email/password, phone/OTP, and social logins.
-- **2 Factor Authentication (2FA):** Elevate security standards with the added layer of two-factor authentication, ensuring the utmost protection for your users.
-- **Responsive Design:** The app is crafted to provide a flawless user experience across devices, be it desktop, tablet, or mobile.
-- **User Profile Management:** Empower your users with the ability to update and manage their details within the app, creating a personalized experience.
+- **🔐 User Authentication:** Seamlessly authenticate users with a variety of methods, including email/password, phone/OTP, and social logins.
+- **🔒 2 Factor Authentication (2FA):** Elevate security standards with the added layer of two-factor authentication, ensuring the utmost protection for your users.
+- **📱 Responsive Design:** The app is crafted to provide a flawless user experience across devices, be it desktop, tablet, or mobile.
+- **👤 User Profile Management:** Empower your users with the ability to update and manage their details within the app, creating a personalized experience.
 
 ## Technologies Used
 
-- **React:** The heart of the app, providing a dynamic and reactive user interface.
-- **Firebase:** Powering the backend for seamless user authentication.
+- **⚛ React:** The heart of the app, providing a dynamic and reactive user interface.
+- **🔥 Firebase:** Powering the backend for seamless user authentication.
 
 ## Demo
 
-[[Experience the live demo]](https://loginapp.himavarshithreddy.in/)
+[Experience the live demo](https://loginapp.himavarshithreddy.in/)
 
 ## Screenshots
 
-![Login](src/login.png)
+[Login](src/login.png)
 
 
 
