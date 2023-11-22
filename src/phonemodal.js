@@ -4,17 +4,22 @@ import call from './assests/call.png';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import OtpInput from "otp-input-react";
+import { useNavigate } from "react-router";
 
 import { ToastContainer, toast } from 'react-toastify';
 
 
 function Phnmodal({closemodal2}){
+    const navigate = useNavigate();
     const [otp, setOtp] = useState('');
     const [ph, setPh] = useState("");
     const [showOTP, setShowOTP] = useState(false);
     
-    const onSignup= ()=>{
+    const onsend= ()=>{
         setShowOTP(true)
+    }
+    const onverify= ()=>{
+      navigate(0)
     }
     return(
         <div className="modalmain">
@@ -38,7 +43,7 @@ function Phnmodal({closemodal2}){
         
       </div>
      
-      <button onClick={onSignup} className='submitbtn last'>Send Code via SMS</button>
+      <button onClick={onsend} className='submitbtn last'>Send Code via SMS</button>
       {showOTP?
       
       <>
@@ -54,7 +59,7 @@ function Phnmodal({closemodal2}){
                   autoFocus
                   className="otp "
                 ></OtpInput>
-              </div><button className='submitbtn last'>Verify OTP</button></>:<div></div>}
+              </div><button onClick={onverify} className='submitbtn last'>Verify OTP</button></>:<div></div>}
       
         <ToastContainer />
             </div>
