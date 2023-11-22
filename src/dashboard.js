@@ -119,7 +119,7 @@ navigate("/");
     
   }); 
 });
-}, 2000);
+}, 1200);
 
       }
     return(<div className="dashboard">
@@ -149,10 +149,9 @@ navigate("/");
       <div className='btncon'>
     
     {verified==="Not Verified" && <button onClick={handlesend} className="dsendbtn">Verify Email</button>}
-    {phnnum==="Not available" && <button onClick={handlephn} className="dsubmitbtn">Add Phone Number</button>}
-    <Dropdown  options={options}   placeholder="Enable 2 factor Authentication" />
-    
-
+    {phnnum==="Not available" && <button onClick={handlephn} className="dsendbtn">Add Phone Number</button>}
+    <Dropdown  options={options} className='dropdown'   placeholder="Enable 2 factor Auth" />
+  
     </div>
     <div className='btncon'>
      <button onClick={handleClick} className="dsubmitbtn">Sign Out</button>

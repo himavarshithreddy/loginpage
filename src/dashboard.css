@@ -87,7 +87,7 @@ font-family: 'Raleway', sans-serif;
   background-color: #B1E457;
   border-radius: 3px;
   box-shadow: 4px 7px 10px rgba(0, 0, 0, 0.6); 
-width: 40%;
+width: 25%;
 height: 35px;
 font-family: 'Mohave', sans-serif;
 font-family: 'Raleway', sans-serif;
@@ -124,7 +124,7 @@ text-align: center;
   background-color: #B1E457;
   border-radius: 3px;
   box-shadow: 4px 7px 10px rgba(0, 0, 0, 0.6); 
-width: 40%;
+width: 25%;
 height: 35px;
 text-align: center;
 font-family: 'Mohave', sans-serif;
@@ -150,6 +150,50 @@ color: black;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  width: 50%;
+  width: 80%;
   align-items: center;
+}
+.dropdown{
+  box-shadow: 4px 7px 10px rgba(0, 0, 0, 0.6); 
+width: 25%;
+height: 35px;
+font-family: 'Mohave', sans-serif;
+font-family: 'Raleway', sans-serif;
+  font-weight: bold !important;
+  cursor: pointer;
+font-size: 16px;
+margin: 20px 0px;
+color: black;
+}
+.Dropdown-control{
+  background-color: #B1E457 !important;
+  box-shadow: 4px 7px 10px rgba(0, 0, 0, 0.6) !important; 
+  outline: none !important;
+  border: none !important;
+  height: 35px !important;
+  cursor: pointer !important;
+}
+.Dropdown-control:hover{
+  transform: scale(1.01) !important;
+  transition: ease 0.2s !important;
+}
+.Dropdown-option{
+background-color: rgb(36, 42, 56) !important;
+border: none !important;
+border-bottom: 1px solid #B1E457 !important ;
+outline: none !important;
+color: lightgray !important;
+}
+.Dropdown-option:hover{
+  background-color: rgb(1, 2, 7) !important;
+}
+.Dropdown-menu{
+  border: 0 !important;
+ 
+}
+.Dropdown-arrow{
+  border-color:black transparent transparent !important;
+}
+.is-open .Dropdown-arrow{
+  border-color:transparent transparent black  !important;
 }
