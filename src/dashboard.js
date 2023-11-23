@@ -15,13 +15,16 @@ import { SiVerizon } from "react-icons/si";
 import Emailmodal from './emailmodal';
 import Dropdown from 'react-dropdown';
 import Phnmodal from './phonemodal';
+import Totpauthmodal from './totpauthmodal';
+import Smsauthmodal from './smsauthmodal';
 import 'react-dropdown/style.css';
 function Dashboard(){
-  const options = [
-    'SMS Authentication', 'Authenticater App'
-  ];
+  
     const[openmodal,setopenmodal]= useState(false)
+    const[totpmodal,setopentotpmodal]= useState(false)
     const[openphone,setopenphone]= useState(false)
+    const[opensmsauth,setopensmsauth]= useState(false)
+    const[phnlogin,setphnlogin]= useState("")
     const navigate = useNavigate();
     const [name,setname]=useState("");
     const [email,setemail]=useState("");
@@ -31,6 +34,10 @@ function Dashboard(){
 const handlephn = ()=>{
 setopenphone(true)
 }
+
+const options = [
+  'SMS Authentication', 'Authenticater App'
+];
 
     const handleClick = () =>{
         loadingBar.current.continuousStart();
@@ -85,6 +92,7 @@ const handlesend = () =>{
             setname(user.displayName || "Not available"); 
             setemail(user.email || "Not available");
             setphnnum(user.phoneNumber || "Not available")
+            setphnlogin(user.providerData[0].providerId);
             if(user.emailVerified===false){
               setverification("Not Verified");
             }
@@ -122,6 +130,39 @@ navigate("/");
 }, 1200);
 
       }
+
+          const handleDropdownChange = (selectedOption) => {
+          if(selectedOption.value==="SMS Authentication"){
+            if(phnlogin==='phone'){
+              toast.error("Already  logged in with Phone", {
+                autoClose: 2000,
+                className: "toast-message",
+              });
+            }
+            else{
+            if(verified==="Not Verified"){
+              toast.error("Verify Email before Enabling 2FA!", {
+                autoClose: 2000,
+                className: "toast-message",
+              });
+            }
+            else{
+          
+              loadingBar.current.continuousStart();
+    loadingBar.current.complete(); 
+              setopensmsauth(true);
+           
+           
+          }
+          }
+        }
+        else if(selectedOption.value==="Authenticater App"){
+          setopentotpmodal(true)
+        }
+          };
+
+
+
     return(<div className="dashboard">
      
 <div className="triangle1"></div>
@@ -143,6 +184,8 @@ navigate("/");
   
     {openmodal && <Emailmodal closemodal1={setopenmodal}/>}
     {openphone && <Phnmodal closemodal2={setopenphone}/>}
+    {opensmsauth && <Smsauthmodal closemodal3={setopensmsauth}/>}
+    {totpmodal && <Totpauthmodal closemodal4={setopentotpmodal}/>}
 
      </div>
      <div className='buttoncon'>
@@ -150,7 +193,7 @@ navigate("/");
     
     {verified==="Not Verified" && <button onClick={handlesend} className="dsendbtn">Verify Email</button>}
     {phnnum==="Not available" && <button onClick={handlephn} className="dsendbtn">Add Phone Number</button>}
-    <Dropdown  options={options} className='dropdown'   placeholder="Enable 2 factor Auth" />
+    <Dropdown onChange={handleDropdownChange}  options={options} className='dropdown'   placeholder="2 factor Auth Options" />
   
     </div>
     <div className='btncon'>
