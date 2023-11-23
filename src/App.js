@@ -22,7 +22,7 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import OtpInput from "otp-input-react";
 import {
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,updateProfile, RecaptchaVerifier, signInWithPhoneNumber, getAuth,signInWithPopup
+  signInWithEmailAndPassword,updateProfile, RecaptchaVerifier, signInWithPhoneNumber, getAuth,signInWithPopup,getMultiFactorResolver,PhoneAuthProvider,PhoneMultiFactorGenerator,
 } from "firebase/auth";
 
 var zxcvbn= require("zxcvbn");
@@ -137,8 +137,9 @@ function App() {
         autoClose: 2000,
         className: "toast-message",
       }); }
-      
-      
+      else if (err.code === 'auth/multi-factor-auth-required') {
+       smsauth(err)
+      }
     else {
       toast.error(err.code, {
         autoClose: 2000,
@@ -146,6 +147,39 @@ function App() {
       });
     }
   };
+
+  const smsauth =(err)=>{
+    const recaptchaVerifier2 =  new RecaptchaVerifier(auth, 'recaptcha-container2', {
+      'size': "invisible"
+    });
+
+    const resolver = getMultiFactorResolver(auth, err);
+    
+    if (resolver.hints[0].factorId ===
+      PhoneMultiFactorGenerator.FACTOR_ID) {
+      const phoneInfoOptions = {
+          multiFactorHint: resolver.hints[0],
+          session: resolver.session
+      };
+      const phoneAuthProvider = new PhoneAuthProvider(auth);
+      // Send SMS verification code
+      const verificationCode ="000000";
+      return phoneAuthProvider.verifyPhoneNumber(phoneInfoOptions, recaptchaVerifier2)
+          .then(function (verificationId) {
+              // Ask user for the SMS verification code. Then:
+              const cred = PhoneAuthProvider.credential(
+                  verificationId, verificationCode);
+              const multiFactorAssertion =
+                  PhoneMultiFactorGenerator.assertion(cred);
+              // Complete sign-in.
+              return resolver.resolveSignIn(multiFactorAssertion)
+          })
+          .then(function (userCredential) {
+             console.log(userCredential)
+             navigate("/dashboard")
+          });
+  }
+  }
   function onCaptchVerify() {
     if (!window.recaptchaVerifier) {
     window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
@@ -312,6 +346,7 @@ function App() {
         </div>
       </div>
       <div id="recaptcha-container"></div>
+      <div id="recaptcha-container2"></div>
       <button  onClick={onSignup}  className='submitbtn'>Send Code via SMS</button>
       <ToastContainer />
      
