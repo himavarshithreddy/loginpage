@@ -20,6 +20,7 @@ import microsoft from './assests/microsoft.png'
 import Namemodal from './namemodal';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import OtpInput from "otp-input-react";
+import Smsauthverify from './smsauthverifymodal';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,updateProfile, RecaptchaVerifier, signInWithPhoneNumber, getAuth,signInWithPopup,getMultiFactorResolver,PhoneAuthProvider,PhoneMultiFactorGenerator,
@@ -28,8 +29,10 @@ import {
 var zxcvbn= require("zxcvbn");
 
 function App() {
+  
   const[openname,setopenname]= useState(false);
   const auth = getAuth();
+  const [authmodal, setauthmodal] = useState('');
   const navigate = useNavigate();
   const [otp, setOtp] = useState('');
    const [ph, setPh] = useState("");
@@ -138,7 +141,10 @@ function App() {
         className: "toast-message",
       }); }
       else if (err.code === 'auth/multi-factor-auth-required') {
-       smsauth(err)
+        console.log(err);
+       
+       
+      smsauth(err)
       }
     else {
       toast.error(err.code, {
@@ -149,55 +155,62 @@ function App() {
   };
 
   const smsauth =(err)=>{
-    const recaptchaVerifier2 =  new RecaptchaVerifier(auth, 'recaptcha-container2', {
+    handleToggle();
+    const appVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
       'size': "invisible"
     });
 
-    const resolver = getMultiFactorResolver(auth, err);
-    
+    window.resolverr = getMultiFactorResolver(auth, err);
+    const resolver = window.resolverr
     if (resolver.hints[0].factorId ===
       PhoneMultiFactorGenerator.FACTOR_ID) {
       const phoneInfoOptions = {
           multiFactorHint: resolver.hints[0],
           session: resolver.session
       };
+      handleToggle();
+      setauthmodal(true);
       const phoneAuthProvider = new PhoneAuthProvider(auth);
-      // Send SMS verification code
-      const verificationCode ="000000";
-      return phoneAuthProvider.verifyPhoneNumber(phoneInfoOptions, recaptchaVerifier2)
-          .then(function (verificationId) {
-              // Ask user for the SMS verification code. Then:
-              const cred = PhoneAuthProvider.credential(
-                  verificationId, verificationCode);
-              const multiFactorAssertion =
-                  PhoneMultiFactorGenerator.assertion(cred);
-              // Complete sign-in.
-              return resolver.resolveSignIn(multiFactorAssertion)
+      
+      return phoneAuthProvider.verifyPhoneNumber(phoneInfoOptions, appVerifier)
+          .then((verificationId)=> {
+           
+            window.confirmationResultt = verificationId;
+            handleToggle();
+             
+            
           })
-          .then(function (userCredential) {
-             console.log(userCredential)
-             navigate("/dashboard")
-          });
+         
   }
   }
-  function onCaptchVerify() {
-    if (!window.recaptchaVerifier) {
-    window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-      'size': "invisible"
-    });
-  }
-  
-    }
+  const handleOtpReceived = (receivedOtp) => {
+    handleToggle();
+    performLoginActions(receivedOtp);
+  };
+  const performLoginActions = (otp2) => {
+    const cred = PhoneAuthProvider.credential(
+      window.confirmationResultt, otp2);
+  const multiFactorAssertion =
+      PhoneMultiFactorGenerator.assertion(cred);
+      handleToggle();
+  // Complete sign-in.
+  window.resolverr.resolveSignIn(multiFactorAssertion).then(function (userCredential) {
+    handleToggle();
+    console.log(userCredential)
+    navigate("/dashboard")
+ });
+  };
+ 
   
   function onSignup() {
-    
-    onCaptchVerify();
+    const appVerifier2 = new RecaptchaVerifier(auth, 'recaptcha-container', {
+      'size': "invisible"
+    });
 
-    const appVerifier = window.recaptchaVerifier;
 
     const formatPh = "+" + ph;
 
-    signInWithPhoneNumber(database, formatPh, appVerifier)
+    signInWithPhoneNumber(database, formatPh, appVerifier2)
       .then((confirmationResult) => {
         handleToggle();
         window.confirmationResult = confirmationResult;
@@ -213,6 +226,7 @@ function App() {
         console.log(error);
         
       });
+      
 
       
   }
@@ -230,11 +244,10 @@ function App() {
       }
       const user2 = res.user;
       if(user2.displayName===null){
-        window.recaptchaVerifier = null;
+       
         setopenname(true)
         
       }else{
-  window.recaptchaVerifier = null;
   handleToggle();
         navigate("/dashboard");}
       })
@@ -278,7 +291,7 @@ function App() {
   return (
     
     <div className="App">
-      
+      <div id="recaptcha-container"></div>
      <div className="triangle1"></div>
      <div className="triangle2"></div>
      <div className="triangle3"></div>
@@ -345,8 +358,7 @@ function App() {
        </div>     
         </div>
       </div>
-      <div id="recaptcha-container"></div>
-      <div id="recaptcha-container2"></div>
+      
       <button  onClick={onSignup}  className='submitbtn'>Send Code via SMS</button>
       <ToastContainer />
      
@@ -387,6 +399,7 @@ function App() {
     
      </div>
      {openname && <Namemodal closename={setopenname}/>}
+     {authmodal && <Smsauthverify onVerify={handleOtpReceived} />}
      <LoadingBar color='#91d223' ref={loadingBar} />
      <FaInfoCircle
         data-tooltip-content="By HimavarshithReddy"

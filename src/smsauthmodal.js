@@ -1,8 +1,5 @@
 import React, {useState,useRef,useEffect} from "react";
 import'./modal.css';
-import { database } from "./firebase";
-import call from './assests/call.png';
-import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import OtpInput from "otp-input-react";
 import { useNavigate } from "react-router";
@@ -10,7 +7,6 @@ import LoadingBar from 'react-top-loading-bar';
 import {
  RecaptchaVerifier,
   getAuth,
-  signInWithPhoneNumber,
   PhoneAuthProvider,
    multiFactor,
    PhoneMultiFactorGenerator,onAuthStateChanged
@@ -36,12 +32,17 @@ function Smsauthmodal({closemodal3}){
     const disablesms =()=>{
         const user = auth.currentUser;
         const multiFactorUser = multiFactor(user);
-        multiFactorUser.unenroll(multiFactorUser.enrolledFactors)
+        var options = multiFactor(user).enrolledFactors;
+        multiFactorUser.unenroll(options[0])
         .then(() => {
             toast.success("Successfully disabled SMS 2FA!", {
-                autoClose: 2000,
+                autoClose: 1400,
                 className: "toast-message",
               });
+              setTimeout(() => {
+                navigate(0)
+              }, 1400);
+              
         })
         .catch((error) => {
             if(error.code==="auth/requires-recent-login"){
@@ -63,6 +64,7 @@ function Smsauthmodal({closemodal3}){
         const auth = getAuth();
           const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
+              setPh(user.phoneNumber);
               const multiFactorUser = multiFactor(user);
               if(multiFactorUser.enrolledFactors.length > 0){
                 for (const factor of multiFactorUser.enrolledFactors) {
@@ -88,28 +90,48 @@ function Smsauthmodal({closemodal3}){
         });
     const onsend= ()=>{
       handleToggle();
-      const formatPh = "+" + ph;
+      const formatPh = ph;
       window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
         'size': "invisible"
       });
       const appVerifier = window.recaptchaVerifier;
       handleToggle();
-      signInWithPhoneNumber(database, formatPh, appVerifier)
-      .then((confirmationResult) => {
-        window.confirmationResult = confirmationResult;
-        setShowOTP(true);
-        toast.success("OTP sent Successfully!", {
-          autoClose: 2000,
-          className: "toast-message",
-        });
-      })
-      .catch((error) => {
-        toast.error(error.code, {
-          autoClose: 2000,
-          className: "toast-message",
-        });
-        
-      });
+  
+      const user = auth.currentUser;
+      multiFactor(user).getSession()
+    .then(function (multiFactorSession) {
+        // Specify the phone number and pass the MFA session.
+        const phoneInfoOptions = {
+            phoneNumber: formatPh,
+            session: multiFactorSession
+        };
+
+        const phoneAuthProvider = new PhoneAuthProvider(auth);
+
+        // Send SMS verification code.
+        return phoneAuthProvider.verifyPhoneNumber(phoneInfoOptions, appVerifier);
+    }).then((verificationId)=> {
+      window.confirmationResult = verificationId;
+      setShowOTP(true);
+      toast.success("OTP sent Successfully!", {
+            autoClose: 2000,
+            className: "toast-message",
+          });
+        })
+        .catch((error) => {
+        if(error.code==="auth/unsupported-first-factor"){
+          toast.error("Relogin to enable 2FA", {
+            autoClose: 2000,
+            className: "toast-message",
+          });
+        }
+        else{
+          toast.error(error.code, {
+            autoClose: 2000,
+            className: "toast-message",
+          });
+        }
+  });
 
      
     }
@@ -117,26 +139,26 @@ function Smsauthmodal({closemodal3}){
       handleToggle();
       window.recaptchaVerifier = null;
       const user = auth.currentUser;
-      const credential = PhoneAuthProvider.credential(window.confirmationResult.verificationId, otp);
-      const multiFactorAssertion = PhoneMultiFactorGenerator.assertion(credential);
-      multiFactor(user).enroll(multiFactorAssertion,"SMS")
-      .then(() => {
-        handleToggle();
-        toast.success("SMS 2FA Enabled !", {
-            autoClose: 2000,
-            className: "toast-message",
-          });
-      })
-      .catch((error) => {
-        toast.error(error.message, {
-            autoClose: 2000,
-            className: "toast-message",
-          });
-      });
-      setTimeout(() => {
-        navigate(0)
-      }, 5000);
-     
+      const cred = PhoneAuthProvider.credential(window.confirmationResult, otp);
+      const multiFactorAssertion = PhoneMultiFactorGenerator.assertion(cred);
+      // Complete enrollment.
+      multiFactor(user).enroll(multiFactorAssertion, "SMS").then(() => {
+          handleToggle();
+          toast.success("SMS 2FA Enabled !", {
+              autoClose: 3000,
+              className: "toast-message",
+            });
+        })
+        .catch((error) => {
+          toast.error(error.message, {
+              autoClose: 2000,
+              className: "toast-message",
+            });
+        });
+        setTimeout(() => {
+          navigate(0)
+        }, 3500);
+  
      
     }
     return(
@@ -146,17 +168,10 @@ function Smsauthmodal({closemodal3}){
             <button onClick={()=>closemodal3(false)}>X</button>
             </div>
             {!smsauth?<>
-            <div className="title">Enter Phone number</div>
+            <div className="title">Enable SMS 2FA</div>
             
             <div className='input'>
-            <div className='input splinpput'>
-        <img className='img' src={call} alt=''/>
-        <div>
-        <label>
-        <PhoneInput className="phninput" country={"in"} value={ph} onChange={setPh} />
-        </label>   
-        </div>
-      </div>
+          
       <div id="recaptcha-container"></div>
       
         
@@ -166,7 +181,7 @@ function Smsauthmodal({closemodal3}){
       {showOTP?
       
       <>
-       <p className='otptext'>Enter OTP</p>
+       <p className='otptext'>Enter OTP sent to {ph}</p>
        <div className='input'>
        
                 <OtpInput

@@ -6,7 +6,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import { getAuth,onAuthStateChanged,updateProfile } from "firebase/auth";
 
 function Namemodal({closename}){
-    console.log("Noooooooooo")
     const navigate = useNavigate();
     const NameRef = useRef();
     const handleSubmit = () =>{

@@ -140,9 +140,9 @@ navigate("/");
               });
             }
             else{
-            if(verified==="Not Verified"){
-              toast.error("Verify Email before Enabling 2FA!", {
-                autoClose: 2000,
+            if(verified==="Not Verified" || phnnum==="Not available" ){
+              toast.error("Verify Email and Add Phone number before Enabling 2FA!", {
+                autoClose: 3000,
                 className: "toast-message",
               });
             }
