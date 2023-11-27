@@ -10,7 +10,7 @@
  align-items: center;
  flex-direction: column;
 }
-.triangle1{
+.dtriangle1{
   width: 0;
   height: 0;
   border-top: 200px solid transparent;
@@ -20,7 +20,7 @@
   left: 0;
   z-index: 1;
 }
-.triangle2{
+.dtriangle2{
   width: 0;
   height: 0;
   border-top: 180px solid transparent;
@@ -29,7 +29,7 @@
   position: absolute;
   left: 0;
 }
-.triangle3{
+.dtriangle3{
   width: 0;
   height: 0;
   border-top: 200px solid transparent;
@@ -39,7 +39,7 @@
   right: 0;
   z-index: 1;
 }
-.triangle4{
+.dtriangle4{
   width: 0;
   height: 0;
   border-top: 180px solid transparent;

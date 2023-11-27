@@ -9,6 +9,7 @@
   justify-content: center;
   align-items: center;
 }
+
 .triangle1{
   width: 0;
   height: 0;
@@ -50,7 +51,6 @@
 }
 .container{
   width: 30%;
-  
   background-color: #212936;
   box-shadow: 4px 7px 10px rgba(0, 0, 0, 0.6); 
   border-radius: 10px;
@@ -414,4 +414,52 @@ width: 35px;
 .socialimg:hover{
   opacity: 0.9;
   transform: scale(1.1);
+}
+
+@media only screen and (max-width: 600px) {
+.triangle1{
+  width: 0;
+  height: 0;
+  border-left: 200px solid transparent;
+  border-right: 530px solid transparent;
+  border-top: 120px solid #B1E457; /* Change the color as per your preference */
+  position: absolute;
+  top: 0;
+  z-index: 1;
+
+}
+.triangle2{
+  width: 0;
+  height: 0;
+  border-left: 180px solid transparent;
+  border-right: 580px solid transparent;
+  border-top: 160px solid #8CA005; /* Change the color as per your preference */
+  position: absolute;
+  top: 0;
+}
+.triangle3{
+  width: 0;
+  height: 0;
+  border-right: 200px solid transparent;
+  border-left: 530px solid transparent;
+  border-bottom: 120px solid #B1E457; /* Change the color as per your preference */
+  position: absolute;
+  bottom: 0;
+  z-index: 1;
+}
+.triangle4{
+  width: 0;
+  height: 0;
+  border-right: 180px solid transparent;
+  border-left: 580px solid transparent;
+  border-bottom: 160px solid #8CA005; /* Change the color as per your preference */
+  position: absolute;
+  bottom: 0;
+}
+.container{
+  width: 80%;
+  background-color: #212936;
+  box-shadow: 4px 7px 10px rgba(0, 0, 0, 0.6); 
+  border-radius: 10px;
+}
 }
