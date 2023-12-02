@@ -203,7 +203,7 @@ function App() {
  
   
   function onSignup() {
-    const appVerifier2 = new RecaptchaVerifier(auth, 'recaptcha-container', {
+    let appVerifier2 = new RecaptchaVerifier(auth, 'recaptcha-container', {
       'size': "invisible"
     });
 
@@ -215,7 +215,7 @@ function App() {
         handleToggle();
         window.confirmationResult = confirmationResult;
         setShowOTP(true);
-      
+      appVerifier2=null;
         toast.success("OTP sent Successfully!", {
           autoClose: 2000,
           className: "toast-message",
@@ -349,8 +349,8 @@ function App() {
       </div>}
       <div className='input splinpput'>
         <img className='img' src={call} alt=''/>
-        <div>
-        <label>
+        <div style={{width:"80%"}}>
+        <label style={{width:"80%"}}>
         <PhoneInput className="phninput" country={"in"} value={ph} onChange={setPh} />
         </label>
         <div className='askphn'>

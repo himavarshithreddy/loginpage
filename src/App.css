@@ -417,49 +417,54 @@ width: 35px;
 }
 
 @media only screen and (max-width: 600px) {
-.triangle1{
-  width: 0;
-  height: 0;
-  border-left: 200px solid transparent;
-  border-right: 530px solid transparent;
-  border-top: 120px solid #B1E457; /* Change the color as per your preference */
-  position: absolute;
-  top: 0;
-  z-index: 1;
+  .triangle1,
+  .triangle2,
+  .triangle3,
+  .triangle4 {
+    width: 0;
+    height: 0;
+    position: absolute;
+    border-style: solid;
+  }
 
-}
-.triangle2{
-  width: 0;
-  height: 0;
-  border-left: 180px solid transparent;
-  border-right: 580px solid transparent;
-  border-top: 160px solid #8CA005; /* Change the color as per your preference */
-  position: absolute;
-  top: 0;
-}
-.triangle3{
-  width: 0;
-  height: 0;
-  border-right: 200px solid transparent;
-  border-left: 530px solid transparent;
-  border-bottom: 120px solid #B1E457; /* Change the color as per your preference */
-  position: absolute;
-  bottom: 0;
-  z-index: 1;
-}
-.triangle4{
-  width: 0;
-  height: 0;
-  border-right: 180px solid transparent;
-  border-left: 580px solid transparent;
-  border-bottom: 160px solid #8CA005; /* Change the color as per your preference */
-  position: absolute;
-  bottom: 0;
-}
-.container{
-  width: 80%;
-  background-color: #212936;
-  box-shadow: 4px 7px 10px rgba(0, 0, 0, 0.6); 
-  border-radius: 10px;
-}
+  .triangle1 {
+    border-width: 70px 440px 0 150px;
+    border-color: #B1E457 transparent transparent transparent;
+    left: 0%;
+    top: 0;
+   
+  }
+
+  .triangle2 {
+    border-width:110px 440px 0 175px;
+    border-color: #8CA005 transparent transparent transparent;
+    left: 0%;
+    top: 0px;
+  }
+
+  .triangle3 {
+    border-width: 0px 440px 70px 150px;
+    border-color: transparent  transparent #B1E457 transparent;
+    left: 0%;
+    bottom: 0;
+  
+  }
+
+  .triangle4 {
+    border-width:0px 440px 110px 175px;
+    border-color:transparent  transparent #8CA005 transparent;
+    left: 0%;
+    bottom: 0;
+  }
+
+  .container {
+    /* Adjustments for smaller screens */
+    width: 90%;
+  }
+  .phninput>input {
+    width: 100% !important;
+  }
+
+
+
 }

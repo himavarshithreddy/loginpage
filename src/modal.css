@@ -43,3 +43,8 @@
     font-size: 20px;
     align-items: center;
 }
+@media only screen and (max-width: 600px) {
+    .modalcon{
+        width: 80%;
+    }
+}

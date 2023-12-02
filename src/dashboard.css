@@ -197,3 +197,59 @@ color: lightgray !important;
 .is-open .Dropdown-arrow{
   border-color:transparent transparent black  !important;
 }
+@media only screen and (max-width: 600px) {
+  .dtriangle1,
+  .dtriangle2,
+  .dtriangle3,
+  .dtriangle4 {
+    width: 0;
+    height: 0;
+    position: absolute;
+    border-style: solid;
+  }
+
+  .dtriangle1 {
+    border-width: 70px 440px 0 150px;
+    border-color: #B1E457 transparent transparent transparent;
+    left: 0%;
+    top: 0;
+   
+  }
+
+  .dtriangle2 {
+    border-width:110px 440px 0 175px;
+    border-color: #8CA005 transparent transparent transparent;
+    left: 0%;
+    top: 0px;
+  }
+
+  .dtriangle3 {
+    border-width: 0px 440px 70px 150px;
+    border-color: transparent  transparent #B1E457 transparent;
+    left: 0%;
+    bottom: 0;
+  
+  }
+
+  .dtriangle4 {
+    border-width:0px 440px 110px 175px;
+    border-color:transparent  transparent #8CA005 transparent;
+    left: 0%;
+    bottom: 0;
+  }
+  .con{
+    width: 80%;
+  }
+  .btncon{
+    width: 95%;
+  }
+  .dropdown {
+    width: 35%;
+  }
+  .dsendbtn{
+    width: 35%;
+  }
+  .dsubmitbtn{
+    width: 35%;
+  }
+}
