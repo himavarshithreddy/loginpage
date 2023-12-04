@@ -252,4 +252,7 @@ color: lightgray !important;
   .dsubmitbtn{
     width: 30%;
   }
+  .details{
+    font-size: 18px;
+  }
 }
