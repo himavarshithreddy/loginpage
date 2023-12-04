@@ -244,13 +244,19 @@ color: lightgray !important;
     width: 95%;
   }
   .dropdown {
-    width: 30%;
+    
+    width: auto;
+    font-size: 14px;
   }
   .dsendbtn{
     width: 30%;
+    font-size: 14px;
+    width: auto;
   }
   .dsubmitbtn{
     width: 30%;
+    font-size: 14px;
+    width: auto;
   }
   .details{
     font-size: 18px;
