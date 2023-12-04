@@ -262,4 +262,7 @@ color: lightgray !important;
   .Dropdown-option{
     font-size: 14px;
   }
+  .Dropdown-control{
+    padding: 0px 10px !important;
+  }
 }
