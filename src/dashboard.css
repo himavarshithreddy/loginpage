@@ -244,18 +244,21 @@ color: lightgray !important;
     width: 95%;
   }
   .dropdown {
-    width: 30%;
-    font-size: auto;
+    width: 35%;
+    font-size: 15px;
   }
   .dsendbtn{
-    width: 30%;
-    font-size: auto;
+    width: 35%;
+    font-size: 15px;
   }
   .dsubmitbtn{
-    width: 30%;
-    font-size: auto;
+    width: 35%;
+    font-size: 15px;
   }
   .details{
     font-size: 18px;
+  }
+  .Dropdown-option{
+    font-size: 14px;
   }
 }
