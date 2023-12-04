@@ -465,6 +465,8 @@ width: 35px;
     width: 100% !important;
   }
 
-
+  .submitbtn{
+    width: 55%;
+  }
 
 }
