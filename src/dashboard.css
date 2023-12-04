@@ -172,6 +172,7 @@ color: black;
   border: none !important;
   height: 35px !important;
   cursor: pointer !important;
+  text-align: center;
 }
 .Dropdown-control:hover{
   transform: scale(1.01) !important;
@@ -246,6 +247,7 @@ color: lightgray !important;
   .dropdown {
     width: 35%;
     font-size: 15px;
+
   }
   .dsendbtn{
     width: 35%;
