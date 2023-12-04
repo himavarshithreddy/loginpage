@@ -284,7 +284,6 @@ color: white;
   color: #546d2a;
   z-index: 1;
   cursor: pointer;
-  box-shadow: 4px 7px 10px rgba(0, 0, 0, 0.6) !important; 
 }
 .tooltip{
   z-index: 10;
@@ -428,7 +427,7 @@ width: 35px;
   }
 
   .triangle1 {
-    border-width: 70px 440px 0 150px;
+    border-width: 50px 440px 0 130px;
     border-color: #B1E457 transparent transparent transparent;
     left: 0%;
     top: 0;
@@ -436,14 +435,14 @@ width: 35px;
   }
 
   .triangle2 {
-    border-width:110px 440px 0 175px;
+    border-width:90px 440px 0 155px;
     border-color: #8CA005 transparent transparent transparent;
     left: 0%;
     top: 0px;
   }
 
   .triangle3 {
-    border-width: 0px 440px 70px 150px;
+    border-width: 0px 440px 50px 130px;
     border-color: transparent  transparent #B1E457 transparent;
     left: 0%;
     bottom: 0;
@@ -451,7 +450,7 @@ width: 35px;
   }
 
   .triangle4 {
-    border-width:0px 440px 110px 175px;
+    border-width:0px 440px 90px 155px;
     border-color:transparent  transparent #8CA005 transparent;
     left: 0%;
     bottom: 0;
